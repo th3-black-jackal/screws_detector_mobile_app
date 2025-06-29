@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView android:id="@+id/tvName" android:textSize="24sp" android:layout_height="10dp" android:layout_width="10dp"/>
+        <TextView android:id="@+id/tvStatus" android:layout_height="10dp" android:layout_width="10dp"/>
+        <TextView android:id="@+id/tvHeartbeat" android:layout_height="10dp" android:layout_width="10dp"/>
+        <TextView android:id="@+id/tvId" android:layout_height="10dp" android:layout_width="10dp"/>
+        <TextView android:id="@+id/tvActive" android:layout_height="10dp" android:layout_width="10dp"/>
+        <TextView android:id="@+id/tvOp" android:layout_height="10dp" android:layout_width="10dp"/>
+        <TextView android:id="@+id/tvDesc" android:layout_height="10dp" android:layout_width="10dp"/>
+    </LinearLayout>
+</ScrollView>

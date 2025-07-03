@@ -1,17 +1,12 @@
 [versions]
 agp = "8.7.3"
 composeBom = "2025.06.01"
-composeCompiler = "1.6.10"
 converterMoshi = "2.11.0"
 kotlin = "2.0.0"
 coreKtx = "1.16.0"
-junit = "4.13.2"
-junitVersion = "1.2.1"
 espressoCore = "3.6.1"
 appcompat = "1.7.1"
 kotlinxCoroutinesAndroid = "1.9.0"
-lifecycleLivedataKtxVersion = "2.8.0"
-lifecycleViewmodelKtxVersion = "2.8.0"
 loggingInterceptor = "5.0.0-alpha.12"
 material = "1.12.0"
 constraintlayout = "2.2.1"
@@ -24,6 +19,7 @@ annotation = "1.9.1"
 lifecycleRuntimeKtx = "2.9.1"
 recyclerview = "1.4.0"
 retrofit = "2.11.0"
+media3CommonKtx = "1.7.1"
 
 [libraries]
 androidx-compose-bom = { module = "androidx.compose:compose-bom", version.ref = "composeBom" }
@@ -49,12 +45,12 @@ androidx-ui = { group = "androidx.compose.ui", name = "ui" }
 androidx-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
 androidx-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
 androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
-androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
 material3 = { module = "androidx.compose.material3:material3" }
 moshi-kotlin = { module = "com.squareup.moshi:moshi-kotlin", version.ref = "moshiKotlin" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
+androidx-media3-common-ktx = { group = "androidx.media3", name = "media3-common-ktx", version.ref = "media3CommonKtx" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

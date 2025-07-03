@@ -59,6 +59,7 @@ dependencies {
     implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.material3)
+    implementation(libs.androidx.media3.common.ktx)
 
     androidTestImplementation(libs.androidx.espresso.core)
 
@@ -73,9 +74,9 @@ dependencies {
 
     // ── EncryptedSharedPreferences (store the token safely) ───────────────
     implementation("androidx.security:security-crypto:1.1.0-alpha06")
-    androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+    debugImplementation(platform(libs.androidx.compose.bom))
     kapt("com.squareup.moshi:moshi-kotlin-codegen:1.15.0")
 
     implementation(libs.androidx.recyclerview)

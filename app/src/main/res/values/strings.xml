@@ -20,4 +20,7 @@
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
     <string name="title_activity_machine_details">MachineDetailsActivity</string>
+    <string name="toggle">Toggle</string>
+    <string name="open_machine">Open Machine</string>
+    <string name="close_machine">Close Machine</string>
 </resources>

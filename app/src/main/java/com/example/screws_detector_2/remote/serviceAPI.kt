@@ -16,6 +16,13 @@ interface ServiceAPI {
     @GET("api/v1/machines/")              // ← NEW
     suspend fun getMachines(): List<Machine>
 
+    @POST("api/v1/machines/{id}/open/")
+    suspend fun openMachine(@Path("id") id: Int): Unit   // 204/200 no-body expected
+
+    @POST("api/v1/machines/{id}/close/")
+    suspend fun closeMachine(@Path("id") id: Int): Unit
+
+
     /*@GET("api/v1/machines/{id}/")
     suspend fun getMachine(@Path("id") id: Int): MachineDetail*/
 

@@ -2,6 +2,7 @@
 package com.example.screws_detector.data.remote
 
 import android.content.Context
+import android.util.Log
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKeys
 import com.example.screws_detector_2.remote.ServiceAPI
@@ -17,7 +18,17 @@ import java.util.concurrent.TimeUnit
 object NetworkModule {
 
     // 👉 point to your backend (10.0.2.2 == host-machine on Android emulator)
-    private const val BASE_URL = "http://10.0.2.2:8000/"
+    //private const val BASE_URL = "http://10.0.2.2:8000/"
+
+    private fun buildBaseUrl(context: Context): String {
+        val prefs = context.getSharedPreferences("network_prefs", Context.MODE_PRIVATE)
+        val ip    = prefs.getString("ip",   "10.0.2.2") ?: "10.0.2.2"
+        val port  = prefs.getString("port", "8000")     ?: "8000"
+        Log.d("HOST_IP", ip)
+        Log.d("HOST_PORT", port)
+        return "http://$ip:$port/"
+    }
+
 
     /** Retrofit entry point (singleton per app-process). */
     fun apiService(context: Context): ServiceAPI {
@@ -52,7 +63,7 @@ object NetworkModule {
 
         /* ───── Build Retrofit instance ───── */
         return Retrofit.Builder()
-            .baseUrl(BASE_URL)
+            .baseUrl(buildBaseUrl(context))
             .client(client)
             .addConverterFactory(MoshiConverterFactory.create(moshi))
             .build()

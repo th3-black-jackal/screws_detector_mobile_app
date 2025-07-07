@@ -23,4 +23,6 @@
     <string name="toggle">Toggle</string>
     <string name="open_machine">Open Machine</string>
     <string name="close_machine">Close Machine</string>
+    <string name="port">Port</string>
+    <string name="server_ip">Server IP</string>
 </resources>

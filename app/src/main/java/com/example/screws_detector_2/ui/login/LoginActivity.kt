@@ -9,6 +9,7 @@ import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
@@ -33,6 +34,9 @@ class LoginActivity : AppCompatActivity() {
         val password = binding.password
         val login = binding.login
         val loading = binding.loading
+        val ip = binding.ipAddress?.text.toString().trim()
+        val port = binding.port?.text.toString().trim()
+
 
         loginViewModel = ViewModelProvider(this, LoginViewModelFactory(this@LoginActivity))
             .get(LoginViewModel::class.java)
@@ -82,18 +86,43 @@ class LoginActivity : AppCompatActivity() {
                 )
             }
 
-            setOnEditorActionListener { _, actionId, _ ->
-                when (actionId) {
-                    EditorInfo.IME_ACTION_DONE ->
-                        loginViewModel.login(
-                            username.text.toString(),
-                            password.text.toString()
-                        )
+            password.setOnEditorActionListener { _, actionId, _ ->
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+
+                    // grab what the user typed
+                    val ipValue   = binding.ipAddress?.text.toString().trim()
+                    val portValue = binding.port?.text.toString().trim()
+
+                    // log it (just for debug)
+                    Log.d("HOST_IP_LOGIN",  ipValue)
+                    Log.d("PORT_IP_LOGIN",  portValue)
+
+                    // save it
+                    getSharedPreferences("network_prefs", MODE_PRIVATE)
+                        .edit()
+                        .putString("ip",   ipValue.ifEmpty { "10.0.2.2" })
+                        .putString("port", portValue.ifEmpty { "8000" })
+                        .apply()
+
+                    // now trigger the login
+                    loginViewModel.login(
+                        username.text.toString(),
+                        password.text.toString()
+                    )
+                    true          // we handled the action
+                } else {
+                    false         // let the IME handle other actions
                 }
-                false
             }
 
             login.setOnClickListener {
+                Log.d("HOST_IP_LOGIN", ip)
+                Log.d("PORT IP_LOGIN", port)
+                getSharedPreferences("network_prefs", MODE_PRIVATE)
+                    .edit()
+                    .putString("ip", ip)   // sensible fall-backs
+                    .putString("port", port)
+                    .apply()
                 loading.visibility = View.VISIBLE
                 loginViewModel.login(username.text.toString(), password.text.toString())
             }

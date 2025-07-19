@@ -1,7 +1,7 @@
 package com.example.screws_detector_2.remote
 
+import com.example.screws_detector_2.data.AccessResponse
 import com.example.screws_detector_2.data.model.Machine
-//import com.example.screws_detector.data.model.MachineDetail
 import com.example.screws_detector_2.data.model.LoginRequest
 import com.example.screws_detector_2.data.model.TokenStore
 import retrofit2.http.Body
@@ -22,8 +22,7 @@ interface ServiceAPI {
     @POST("api/v1/machines/{id}/close/")
     suspend fun closeMachine(@Path("id") id: Int): Unit
 
-
-    /*@GET("api/v1/machines/{id}/")
-    suspend fun getMachine(@Path("id") id: Int): MachineDetail*/
+    @POST("api/v1/auth/refresh")
+    suspend fun refreshToken(@Body body: Map<String, String>): AccessResponse
 
 }

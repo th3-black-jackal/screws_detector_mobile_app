@@ -8,6 +8,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.screws_detector_2.R
 import com.example.screws_detector_2.databinding.FragmentHomeBinding
 import com.example.screws_detector_2.data.model.Machine
+import com.example.screws_detector_2.service.MachineService
+import com.example.screws_detector_2.ui.common.MachineServiceConnection
 
 class HomeFragment : Fragment(R.layout.fragment_home) {
 
@@ -18,10 +20,14 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
     private lateinit var adapter: MachineListAdapter
+    private lateinit var connection: MachineServiceConnection
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentHomeBinding.bind(view)
+
+        connection = MachineServiceConnection(requireContext())
+        connection.bind()
 
         adapter = MachineListAdapter(::openDetails)
         binding.rvMachines.layoutManager = LinearLayoutManager(requireContext())
@@ -29,11 +35,22 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
         vm.machines.observe(viewLifecycleOwner) { showMachines(it) }
         vm.fetch()
+
     }
 
     private fun showMachines(list: List<Machine>) {
         binding.progress.visibility = View.GONE
         adapter.submitList(list)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        connection.bind()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        connection.unbind()
     }
 
     private fun openDetails(machine: Machine) =

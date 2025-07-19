@@ -3,7 +3,7 @@ package com.example.screws_detector_2.data
 import android.annotation.SuppressLint
 import android.content.Context
 import android.net.http.HttpException
-import com.example.screws_detector.data.remote.NetworkModule
+import com.example.screws_detector_2.remote.NetworkModule
 import com.example.screws_detector_2.data.model.LoggedInUser
 import com.example.screws_detector_2.data.model.LoginRequest
 import com.example.screws_detector_2.data.model.TokenStore

@@ -8,9 +8,10 @@ import androidx.appcompat.app.AppCompatActivity
 import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
-import com.example.screws_detector.data.remote.NetworkModule
+import com.example.screws_detector_2.remote.NetworkModule
 import com.example.screws_detector_2.data.model.Machine
 import com.example.screws_detector_2.databinding.ActivityMachineDetailsBinding
+import com.example.screws_detector_2.ui.common.MachineServiceConnection
 import kotlinx.coroutines.launch
 
 
@@ -20,20 +21,22 @@ class MachineDetailsActivity : AppCompatActivity() {
     private val api by lazy { NetworkModule.apiService(this)}
     private lateinit var machine: Machine
 
+    private lateinit var connection: MachineServiceConnection
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMachineDetailsBinding.inflate(layoutInflater)
         setContentView(binding.root)
         machine = intent.getParcelableExtra(EXTRA)!!
 
+        connection = MachineServiceConnection(this)
+        connection.bind()
 
         Log.d("MACHINE_STATUS", machine.status)
         Log.d("MACHINE_NAME", machine.name)
         machine.description?.let { Log.d("MACHINE_DESC", it) }
-
         show(machine)
         initButtons()
-
     }
 
     private fun initButtons() = with(binding){
@@ -41,19 +44,25 @@ class MachineDetailsActivity : AppCompatActivity() {
         btnClose.setOnClickListener { toggleMachine(false) }
     }
 
-    private fun toggleMachine(open: Boolean) = lifecycleScope.launch{
-        try{
-            setButtonsEnabled(false)
-            if (open) api.openMachine(machine.id)
-            else      api.closeMachine(machine.id)
-            machine = machine.copy(status = if (open) "ON" else "OFF")
-            show(machine)
-            toast("Machine ${if (open) "opened" else "closed"} ✅")
-        } catch(e: Exception){
-            toast("Action failed: ${e.localizedMessage}")
-        } finally {
-            setButtonsEnabled(true)
+    private fun toggleMachine(open: Boolean) {
+        connection.service?.let { svc ->
+            if (open) svc.openMachine(machine.id) {
+                 ok -> handleResult(ok, open)
+            }
+            else {
+                svc.closeMachine(machine.id) {
+                    ok -> handleResult(ok, open)
+                }
+            }
         }
+    }
+
+    private fun handleResult(ok: Boolean, open: Boolean){
+        if(ok){
+            machine = machine.copy(status = if(open) "ON" else "OFF")
+            show(machine)
+        }
+        toast(if (ok) "Done" else "Failed")
     }
 
     private fun setButtonsEnabled(enable: Boolean) = with(binding){
@@ -64,7 +73,6 @@ class MachineDetailsActivity : AppCompatActivity() {
 
     private fun toast(msg: String) =
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
-
 
     private fun show(m: Machine) = with(binding){
         tvName.text = m.name

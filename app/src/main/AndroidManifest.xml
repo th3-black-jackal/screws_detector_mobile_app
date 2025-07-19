@@ -15,6 +15,10 @@
         android:theme="@style/Theme.Screws_detector_2"
         android:usesCleartextTraffic="true"
         tools:targetApi="31" >
+        <service
+            android:name=".service.MachineService"
+            android:exported="false"/>
+
         <activity
             android:name=".ui.home.MachineDetailsActivity"
             android:exported="false"

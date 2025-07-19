@@ -116,12 +116,15 @@ class LoginActivity : AppCompatActivity() {
             }
 
             login.setOnClickListener {
-                Log.d("HOST_IP_LOGIN", ip)
-                Log.d("PORT IP_LOGIN", port)
+                // grab what the user typed
+                val ipValue   = binding.ipAddress?.text.toString().trim()
+                val portValue = binding.port?.text.toString().trim()
+                Log.d("HOST_IP_LOGIN", ipValue)
+                Log.d("PORT IP_LOGIN", portValue)
                 getSharedPreferences("network_prefs", MODE_PRIVATE)
                     .edit()
-                    .putString("ip", ip)   // sensible fall-backs
-                    .putString("port", port)
+                    .putString("ip", ipValue)   // sensible fall-backs
+                    .putString("port", portValue)
                     .apply()
                 loading.visibility = View.VISIBLE
                 loginViewModel.login(username.text.toString(), password.text.toString())
